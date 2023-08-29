@@ -1,0 +1,13 @@
+version: "3"
+services:
+  arang_client:
+    build: ./docker/
+    container_name: arang_client
+    volumes:
+      - ./app:/app
+    stdin_open: true
+    environment:
+      LC_ALL: C.UTF-8
+    tty: true
+    ports:
+      - "9001-9100:9001-9100"
