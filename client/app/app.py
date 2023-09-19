@@ -29,6 +29,57 @@ challenges = [
         "challenge": "xss3 - read article",
         "link": "http://arang_client:9003/"
     },
+    {
+        "seq": 4,
+        "challenge": "domclobbering",
+        "link": "http://arang_client:9200/domclobbering.php"
+    },
+    {
+        "seq": 5,
+        "challenge": "csrf1 - change admin password1",
+        "link": "http://arang_client:9004/"
+    },
+    {
+        "seq": 6,
+        "challenge": "csrf2 - change admin password2",
+        "link": "http://arang_client:9005/"
+    },
+    {
+        "seq": 7,
+        "challenge": "xsleak - get secret value of admin",
+        "link": "http://arang_client:9006/"
+    },
+    {
+        "seq": 8,
+        "challenge": "sqli1 - basic",
+        "link": "http://arang_client:9200/sqli1.php"
+    },
+    {
+        "seq": 9,
+        "challenge": "sqli2 - bypass filtering",
+        "link": "http://arang_client:9200/sqli2.php"
+    },
+    {
+        "seq": 10,
+        "challenge": "sqli3 - blind sqli + bypass filtering",
+        "link": "http://arang_client:9200/sqli3.php"
+    },
+    {
+        "seq": 11,
+        "challenge": "lif1 - basic",
+        "link": "http://arang_client:9201/lfi1.php"
+    },
+    {
+        "seq": 12,
+        "challenge": "lfi2 - get the shell",
+        "link": "http://arang_client:9201/lfi2.php"
+    },
+    {
+        "seq": 13,
+        "challenge": "command injection - blind",
+        "link": "http://arang_client:9301/"
+    },
+
 ]
 
 def sessionCheck(loginCheck=False):   

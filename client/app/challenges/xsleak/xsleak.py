@@ -13,12 +13,7 @@ ids = {
     "admin":os.getenv("admin_password")
 }
 
-articles = [{
-    "seq":0,
-    "subject":"flag is here!",
-    "author":"admin",
-    "content": os.getenv("xss3_flag")
-}]
+articles = []
 
 def sessionCheck(loginCheck=False):   
     if loginCheck:
@@ -34,8 +29,7 @@ def sessionCheck(loginCheck=False):
 
 def xsscheck(content):
     content = content.lower()
-    vulns = ["javascript", "frame", "object", "on", "data", "base","\\u","alert","fetch","XMLHttpRequest","eval","constructor"]
-    vulns += list("()'\"")
+    vulns = ["javascript", "script", "frame", "object", "embed", "on", "data", "base", "\\u", "&#", "alert", "fetch", "XMLHttpRequest", "eval", "constructor"]
     for char in vulns:
         if char in content:
             return True
@@ -100,6 +94,7 @@ def register():
         else:
             return flask.render_template("register.html", msg="already registered id")
 
+
 @app.route("/logout")
 def logout():
     flask.session.pop('isLogin', False)
@@ -126,9 +121,11 @@ def viewboard(seq):
 
     article = articles[int(seq)]
     if article["author"] == flask.session["userid"] or flask.session["userid"] == "admin":
+        article["flag"] = os.getenv("xsleak_flag") if flask.session["userid"] == "admin" else "no flag to user"
         return flask.render_template("view.html", articles=article)
     else:
         return "<script>alert('This is not your article');location.replace('/');</script>"
+
 
 @app.route("/write", methods=["GET", "POST"])
 def write():
@@ -148,7 +145,7 @@ def write():
                 'seq':len(articles),
                 'subject':subject,
                 'author':flask.session['userid'],
-                'content':content,
+                'content':content
             }
 
             articles.append(req)
@@ -169,13 +166,13 @@ def report():
         '''
     elif flask.request.method == "POST":
         url = flask.request.form['url']
-        requests.post(f"http://arang_client:9000/run", data=f"chal=xss3&url={url}", headers={"Content-Type":"application/x-www-form-urlencoded", "Content-Length":"1"})
+        requests.post(f"http://arang_client:9000/run", data=f"chal=xsleak&url={url}", headers={"Content-Type":"application/x-www-form-urlencoded", "Content-Length":"1"})
         return "<script>history.go(-1);</script>"
 
 
 if __name__ == "__main__":
     try:
-        app.run(host="0.0.0.0", port=9003, debug=True)
+        app.run(host="0.0.0.0", port=9006, debug=True)
     except Exception as ex:
         logging.info(str(ex))
         pass

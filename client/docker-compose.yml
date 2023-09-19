@@ -1,7 +1,7 @@
 version: "3"
 services:
   arang_client:
-    build: ./docker/
+    build: ./docker/flask/
     container_name: arang_client
     volumes:
       - ./app:/app
@@ -11,3 +11,54 @@ services:
     tty: true
     ports:
       - "9001-9100:9001-9100"
+      
+  arang_client2:
+    build: ./docker/php/
+    container_name: arang_client2
+    volumes:
+      - ./app2/:/app2
+      - ./app2/html/:/var/www/html/
+      - ./app2/ports.conf:/etc/apache2/ports.conf
+      - ./app2/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+    stdin_open: true
+    environment:
+      LC_ALL: C.UTF-8
+    tty: true
+    ports:
+      - "9200:9200"
+
+  arang_client3:
+    build: ./docker/php2/
+    container_name: arang_client3
+    volumes:
+      - ./app3/:/app3
+      - ./app3/html/:/var/www/html/
+      - ./app3/ports.conf:/etc/apache2/ports.conf
+      - ./app3/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+    stdin_open: true
+    environment:
+      LC_ALL: C.UTF-8
+    tty: true
+    ports:
+      - "9201:9201"
+
+  arang_client4:
+    build: ./docker/flask2/
+    container_name: arang_client4
+    volumes:
+      - ./app4/:/app4
+    stdin_open: true
+    environment:
+      LC_ALL: C.UTF-8
+    tty: true
+    ports:
+      - "9301:9301"
+
+  db:
+    build: ./docker/mysql
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: "mysq1_r00t_p4ssw0rd_d0_n0t_cr4ck_th1s"
+    volumes:
+      - "./mysql/:/docker-entrypoint-initdb.d/"
+    command: mysqld --innodb-buffer-pool-size=16M --character-set-server=utf8 --collation-server=utf8_general_ci

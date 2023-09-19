@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>FSI BOARD-XSLEAK</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="/static/css/style.css">
+	<script>
+		function fn_cancel(){
+			location.replace(`/board`);
+		}
+	</script>
+	</head>
+	<body>
+	<section class="ftco-section">
+		<div class="container" style="max-width: 100%;">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">FSI BOARD-XSLEAK</h2>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="container">
+				 <form id="writeForm" name="writeForm" method="post" enctype="multipart/form-data">
+				        <div>
+				            <h2 class="text-center mb-4">글쓰기</h2>
+				            <div>
+				                <div class="mb-3">
+				                  <label class="form-label">제목</label>
+				                  <input class="form-control" type="text" id="subject" name="subject">
+				                </div>
+				                <div class="mb-3">
+				                  <label class="form-label">작성자</label>
+				                  <input class="form-control" type="text" id="author" name="author" value="{{loginid}}" readonly>
+				                </div>
+				                <div class="mb-3">
+				                  <label class="form-label">내용</label>
+				                  <textarea class="form-control" rows="10" cols="10" id="content" name="content"></textarea>
+				                </div>
+				                <div>
+				                	<center>
+				                    <input class="btn btn-success btn-lg" type="submit" value="글쓰기">
+				              			<input class="btn btn-info btn-lg" onClick='fn_cancel()' value="목록">
+				              		</center>
+				                </div>
+
+				              
+				            </div>
+				        </div>
+				    </form>
+</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/popper.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/main.js"></script>
+
+	</body>
+</html>

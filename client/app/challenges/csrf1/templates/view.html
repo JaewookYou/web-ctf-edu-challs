@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>FSI BOARD-CSRF1</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="/static/css/style.css">
+  </head>
+	<body>
+	<section class="ftco-section">
+		
+		<div class="container" style="max-width: 100%;">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5" >
+					<h2 class="heading-section">FSI BOARD-CSRF1</h2>
+				</div>
+			</div>
+			
+			 <div class="container" class="row justify-content-center">
+            <hr/>
+            <div class="col-md-6 text-center mb-5" style="max-width: 100%;">
+                <div>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr align="left">
+                                <th width="15%">제목</th>
+                                <th width="85%">{{articles['subject']}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr align="left">
+                                <td>글쓴이
+                                </td>
+                                <td>
+                                {{articles['author']}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: left;">
+                                    <!-- xss here! -->
+                                    <p>{{articles['content']|safe}}</p>
+                       
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <td>
+                                    <span style='float:right'>
+                                        <button type="button" id="list" class="btn btn-default" onclick="location.replace('/board');">목록</button>
+                                        <button type="button" id="write" class="btn btn-default" onclick="location.replace('/write');">글쓰기</button>
+                                    </span>
+                                </td>
+                            </tr>
+                        </thead>
+                    </table>
+								</div>
+            </div>
+            <hr/>
+          </div>
+        </div>    
+		</div>
+		
+	</section>
+
+	<script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/popper.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/main.js"></script>
+
+	</body>
+</html>

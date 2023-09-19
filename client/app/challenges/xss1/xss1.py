@@ -90,8 +90,9 @@ def register():
 @app.route("/logout")
 def logout():
     flask.session.pop('isLogin', False)
-    return flask.redirect(flask.url_for("login"))
-
+    resp = flask.make_response(flask.redirect(flask.url_for("login")))
+    resp.set_cookie('userid', expires=0)
+    return resp
 
 @app.route("/board", methods=["GET"])
 def board():
@@ -114,6 +115,7 @@ def viewboard(seq):
         return flask.render_template("view.html", articles=article)
     else:
         return "<script>alert('This is not your article');location.replace('/');</script>"
+
 
 @app.route("/write", methods=["GET", "POST"])
 def write():
@@ -151,7 +153,7 @@ def report():
         '''
     elif flask.request.method == "POST":
         url = flask.request.form['url']
-        requests.get(f"http://arang_client:9000/run?chal=xss1&url={url}")
+        requests.post(f"http://arang_client:9000/run", data=f"chal=xss1&url={url}", headers={"Content-Type":"application/x-www-form-urlencoded", "Content-Length":"1"})
         return "<script>history.go(-1);</script>"
 
 

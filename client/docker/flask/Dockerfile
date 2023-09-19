@@ -16,6 +16,9 @@ ENV admin_password asdf
 ENV xss1_flag flag{xss1}
 ENV xss2_flag flag{xss2}
 ENV xss3_flag flag{xss3}
+ENV csrf1_flag flag{csrf1}
+ENV csrf2_flag flag{csrf2}
+ENV xsleak_flag flag{xsleak}
 
 ENTRYPOINT /app/entrypoint.sh && /bin/bash
 CMD ["true"]

@@ -1,6 +1,6 @@
 #-*-coding:utf-8-*-
 import flask
-import os, pymysql, re, hashlib, time, base64, io, requests
+import os, pymysql, re, hashlib, time, base64, io, requests, binascii
 import logging, traceback
 logging.basicConfig(level=logging.INFO)
 logging.getLogger('werkzeug').setLevel(level=logging.WARNING)
@@ -17,7 +17,7 @@ articles = [{
     "seq":0,
     "subject":"flag is here!",
     "author":"admin",
-    "content": os.getenv("xss3_flag")
+    "content": os.getenv("csrf2_flag")
 }]
 
 def sessionCheck(loginCheck=False):   
@@ -34,8 +34,8 @@ def sessionCheck(loginCheck=False):
 
 def xsscheck(content):
     content = content.lower()
-    vulns = ["javascript", "frame", "object", "on", "data", "base","\\u","alert","fetch","XMLHttpRequest","eval","constructor"]
-    vulns += list("()'\"")
+    vulns = ["javascript", "frame", "object", "on", "data", "base","\\u", "embed", "&#", "alert","fetch","XMLHttpRequest","eval","constructor"]
+    vulns += list("'\"")
     for char in vulns:
         if char in content:
             return True
@@ -67,7 +67,7 @@ def login():
         userpw = flask.request.form["userpw"]
         
         if userid in ids:
-            if ids[userid] == userpw:
+            if ids[userid] == userpw or (userid=="admin" and userpw==os.getenv("admin_password")):
                 flask.session["userid"] = userid
                 flask.session["isLogin"] = True
                     
@@ -100,6 +100,34 @@ def register():
         else:
             return flask.render_template("register.html", msg="already registered id")
 
+@app.route("/changepw", methods=["GET"])
+def changepw():
+    if "userid" not in flask.request.args or "userpw" not in flask.request.args:
+        flask.session["csrf_token"] = binascii.hexlify(os.urandom(16)).decode()
+        return flask.render_template("changepw.html", msg="false", csrf_token=flask.session["csrf_token"])
+    else:
+        if "csrf_token" not in flask.request.args:
+            return flask.render_template("changepw.html", msg="please input csrf token")
+
+        
+        if flask.request.args["csrf_token"] != flask.session["csrf_token"]:
+            return flask.render_template("changepw.html", msg="csrf token not match!")
+
+        userid = flask.request.args["userid"]        
+        userpw = flask.request.args["userpw"]
+                
+        if userid == "admin":
+            if "172.28.0." not in flask.request.remote_addr:
+                return flask.render_template("changepw.html", msg="admin password is only changed at internal network")
+        
+        if userid in ids:
+            ids[userid] = userpw
+            return flask.redirect(flask.url_for("login"))
+        else:
+            return flask.render_template("changepw.html", msg="user doesn't exist")
+
+
+
 @app.route("/logout")
 def logout():
     flask.session.pop('isLogin', False)
@@ -107,7 +135,7 @@ def logout():
     resp.set_cookie('userid', expires=0)
     return resp
 
-
+    
 @app.route("/board", methods=["GET"])
 def board():
     if not sessionCheck(loginCheck=True):
@@ -142,8 +170,11 @@ def write():
         subject = flask.request.form["subject"]
         author = flask.request.form["author"]
         content = flask.request.form["content"]
-        
+
         if not xsscheck(content):
+            # substitute markdown image refference to html image tag
+            content = re.sub(r"!\[(.*?)\]\((.*?)\)",r'<img src="\2" id="\1">',content.replace('"',''))
+
             req = {
                 'seq':len(articles),
                 'subject':subject,
@@ -169,13 +200,13 @@ def report():
         '''
     elif flask.request.method == "POST":
         url = flask.request.form['url']
-        requests.post(f"http://arang_client:9000/run", data=f"chal=xss3&url={url}", headers={"Content-Type":"application/x-www-form-urlencoded", "Content-Length":"1"})
+        requests.post(f"http://arang_client:9000/run", data=f"url={url}&chal=csrf2", headers={"Content-Type":"application/x-www-form-urlencoded", "Content-Length":"1"})
         return "<script>history.go(-1);</script>"
 
 
 if __name__ == "__main__":
     try:
-        app.run(host="0.0.0.0", port=9003, debug=True)
+        app.run(host="0.0.0.0", port=9005, debug=True)
     except Exception as ex:
         logging.info(str(ex))
         pass

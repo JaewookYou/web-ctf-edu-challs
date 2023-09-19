@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>FSI BOARD-XSS1</title>
+  	<title>FSI BOARD-CSRF1</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -21,7 +21,7 @@
 		<div class="container" style="max-width: 100%;">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">FSI BOARD-XSS1</h2>
+					<h2 class="heading-section">FSI BOARD-CSRF1</h2>
 				</div>
 			</div>
 			<div class="row justify-content-center">
@@ -47,7 +47,8 @@
         </table>
         <center>
         <div>            
-            <a href='#' onClick='location.replace("/write");' class="btn btn-success">글쓰기</a>
+        	<a href='#' onClick='location.replace("/changepw");' class="btn btn-danger">비밀번호 변경</a>
+            <a href='#' onClick='location.replace("/write");' class="btn btn-success">글쓰기</a>            
             <a href='#' onClick='location.replace("/report")' class="btn btn-warning">관리자에게 글 읽기 요청</a>    
             <a href='#' onClick='location.replace("/logout")' class="btn btn-info">로그아웃</a>            
         </div>

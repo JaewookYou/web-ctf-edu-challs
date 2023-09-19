@@ -18,10 +18,13 @@ app.config['MAX_CONTENT_LENGTH'] = 80 * 1024 * 1024
 ADMIN_ID = "admin"
 ADMIN_PASS = os.getenv("admin_password")
 
-challs = {
+server1_challs = {
 	"xss1": "9001",
 	"xss2": "9002",
 	"xss3": "9003",
+	"csrf1": "9004",
+	"csrf2": "9005",
+	"xsleak": "9006",
 }
 
 def interceptor(request):
@@ -53,18 +56,31 @@ class Crawler:
 
 		return self.driver
 
-def doCrawl(chal, url):
+def doCrawl_server1(chal, url):
 	crawler = Crawler()
 	driver = crawler.driver
 	try:
-		crawler.req(f'http://arang_client:{challs[chal]}/login')
+		crawler.req(f'http://arang_client:{server1_challs[chal]}/login')
 
 		driver.find_element(By.ID,"userid").send_keys(ADMIN_ID)
 		driver.find_element(By.ID,"userpw").send_keys(ADMIN_PASS)
 		driver.find_element(By.ID,"submit-login").click()
 		
-		time.sleep(2)
+		time.sleep(1)
 
+		if crawler.req(url):
+			time.sleep(2)
+		
+		driver.quit()
+	except:
+		driver.quit()
+		print(f"[x] error...")
+		print(traceback.format_exc())
+
+def doCrawl_server2(url):
+	crawler = Crawler()
+	driver = crawler.driver
+	try:
 		if crawler.req(url):
 			time.sleep(10)
 		
@@ -74,12 +90,18 @@ def doCrawl(chal, url):
 		print(f"[x] error...")
 		print(traceback.format_exc())
 
-@app.route("/run", methods=["GET"])
+
+@app.route("/run", methods=["POST"])
 def run():
-	url = flask.request.args['url']
-	chal = flask.request.args['chal']
-	print(f"[+] bot run {chal} - {url}")
-	doCrawl(chal, url)
+	url = flask.request.form['url']
+	if 'chal' in flask.request.form:
+		chal = flask.request.form['chal']
+		print(f"[+] bot run arang_client:{chal} - {url}")
+		doCrawl_server1(chal, url)
+	else:
+		print(url)
+		doCrawl_server2(url)
+
 	return "<script>history.go(-1);</script>"
 		
 

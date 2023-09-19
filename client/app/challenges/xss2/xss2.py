@@ -30,7 +30,7 @@ def sessionCheck(loginCheck=False):
 
 def xsscheck(content):
     content = content.lower()
-    vulns = ["script", "on", "data"]
+    vulns = ["javascript", "script", "on", "data", "base", "(", ")", "'"]
     vulns += [chr(x) for x in range(0x20)]
     for char in vulns:
         if char in content:
@@ -101,7 +101,9 @@ def register():
 @app.route("/logout")
 def logout():
     flask.session.pop('isLogin', False)
-    return flask.redirect(flask.url_for("login"))
+    resp = flask.make_response(flask.redirect(flask.url_for("login")))
+    resp.set_cookie('userid', expires=0)
+    return resp
 
 
 @app.route("/board", methods=["GET"])
@@ -165,7 +167,7 @@ def report():
         '''
     elif flask.request.method == "POST":
         url = flask.request.form['url']
-        requests.get(f"http://arang_client:9000/run?chal=xss2&url={url}")
+        requests.post(f"http://arang_client:9000/run", data=f"chal=xss2&url={url}", headers={"Content-Type":"application/x-www-form-urlencoded", "Content-Length":"1"})
         return "<script>history.go(-1);</script>"
 
 
