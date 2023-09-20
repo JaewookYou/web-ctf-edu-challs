@@ -1,2 +1,0 @@
-<?php
-$flag = "flag{lfi}";
