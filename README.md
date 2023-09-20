@@ -3,7 +3,7 @@
 ## challserver & xss1\~3, csrf1\~2, xsleak 
 related directories : `./app/` , `./docker/flask/`
 
-## domclobbering, sqli1~3
+## domclobbering, sqli1~3, prototype pollution
 `./app2/` , `./docker/php/` , `./docker/mysql/` , `./mysql/`
 
 ## lfi1~2 
@@ -11,3 +11,6 @@ related directories : `./app/` , `./docker/flask/`
 
 ## command injection 
 `./app4/`, `./docker/flask2/`
+
+## ssti
+`./app5/`, `./docker/flask3/`
