@@ -10,7 +10,7 @@ app.config['MAX_CONTENT_LENGTH'] = 80 * 1024 * 1024
 def index():
 	if "name" in flask.request.args:
 		template =f'''
-		<h2> hello {name}! </h2>
+		<h2> hello {flask.request.args['name']}! </h2>
 		'''
 		return flask.render_template_string(template)
 	else:

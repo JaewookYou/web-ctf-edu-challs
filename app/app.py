@@ -91,6 +91,16 @@ challenges = [
         "challenge": "command injection - blind",
         "link": "http://arang_client:9301/"
     },
+    {
+        "seq": 14,
+        "challenge": "ssti - get the shell",
+        "link": "http://arang_client:9302/"
+    },
+    {
+        "seq": 15,
+        "challenge": "prototype - eval js code",
+        "link": "http://arang_client:9200/prototype_pollution.php"
+    },
 
 ]
 

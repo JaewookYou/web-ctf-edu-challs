@@ -52,7 +52,19 @@ services:
       LC_ALL: C.UTF-8
     tty: true
     ports:
-      - "9301-9302:9301-9302"
+      - "9301:9301"
+
+  arang_client5:
+    build: ./docker/flask3/
+    container_name: arang_client5
+    volumes:
+      - ./app5/:/app5
+    stdin_open: true
+    environment:
+      LC_ALL: C.UTF-8
+    tty: true
+    ports:
+      - "9302:9302"
 
   db:
     build: ./docker/mysql

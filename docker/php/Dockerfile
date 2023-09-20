@@ -16,6 +16,9 @@ RUN chmod 444 /sqli1_flag.txt
 COPY flags/sqli2_flag.txt /sqli2_flag.txt
 RUN chmod 444 /sqli2_flag.txt
 
+COPY flags/pp_flag.txt /pp_flag.txt
+RUN chmod 444 /pp_flag.txt
+
 RUN groupadd -g 999 user
 RUN useradd -r -u 999 -g user user
 USER user
