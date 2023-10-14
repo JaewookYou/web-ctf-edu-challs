@@ -22,7 +22,7 @@ def load_user():
             "arang":{
                 "password": "123123",
                 "solved": [],
-                "lastsolved":1797214493
+                "lastsolved":0
             }
         }
 load_user()
@@ -154,6 +154,8 @@ def ranking():
     sorted_dict = dict(sorted(ids.items(), key=lambda item: (-len(item[1]["solved"]), item[1]["lastsolved"])))
     print(sorted_dict)
     for i in sorted_dict.keys():
+        if not sorted_dict[i]["solved"]:
+            continue
         t.append({i:sorted_dict[i]})
     print(t)
     return flask.render_template("ranking.html", ids=t)
@@ -174,7 +176,7 @@ def login():
         userpw = flask.request.form["userpw"]
         
         if userid in ids:
-            if ids[userid]["password"] == userpw:
+            if ids[userid]["password"] == hashlib.sha256(userpw.encode()).hexdigest():
                 flask.session["userid"] = userid
                 flask.session["isLogin"] = True
                     
@@ -199,15 +201,16 @@ def register():
             return flask.redirect(flask.url_for("main"))
 
         userid = flask.request.form["userid"] 
-        userpw = flask.request.form["userpw"]
+        userpw = hashlib.sha256(flask.request.form["userpw"].encode()).hexdigest()
     
         if userid not in ids:
             ids[userid] = {
                 "password": userpw,
-                "solved": []
+                "solved": [],
+                "lastsolved": 0
             }
             with open("users.json", "w") as f:
-                f.write(json.dumps(ids))
+                f.write(json.dumps(ids, indent=4))
             return flask.render_template("login.html", msg="false")
         else:
             return flask.render_template("register.html", msg="already registered id")
@@ -244,7 +247,7 @@ def report():
             ids[flask.session["userid"]]["solved"].append(i)
             ids[flask.session["userid"]]["lastsolved"] = time.time()
             with open("users.json", "w") as f:
-                f.write(json.dumps(ids))
+                f.write(json.dumps(ids, indent=4))
             return "<script>alert('right! congratulation!!');location='/';</script>"
         else:
             return "<script>alert('wrong... try again');history.go(-1);</script>"
