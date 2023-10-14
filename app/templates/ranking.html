@@ -10,19 +10,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	
 	<link rel="stylesheet" href="/static/css/style.css">
-	<script>
-        function change_link(){
-            for(var i=0; i<100; i++){
-                atag = document.getElementById(`link${i+1}`);
-                if(atag){
-                    atag.href = atag.href.replace("arang_client", document.domain);
-                    atag.text = atag.text.replace("arang_client", document.domain);
-                } else{
-                    break;
-                }
-            }
-        }
-    </script>
+
 	</head>
 	<body onload=change_link()>
 	<section class="ftco-section">
@@ -38,31 +26,24 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>번호</th>
-                    <th>문제</th>
-                    <th>링크</th>
-                    <th><center>풀이여부</center></th>
+                    <th>순위</th>
+                    <th>아이디</th>
+                    <th>푼 문제</th>
                 </tr>
             </thead>
             <tbody>
-                {% for i in c %}
+                {% for item in ids %}
                     <tr>
-                        <td>{{i['seq']}}</td>
-                        <td>{{i['challenge']}}</td>
-                        <td><a id="link{{i['seq']}}" href="{{i['link']}}">{{i['link']}}</a></td>
-                        {% if i['solved'] == True %}
-                        <td><center>✅</center></td>
-                        {% else %}
-                        <td><center>❌</center></td>
-                        {% endif %}
+                        <td>{{ loop.index }}</td>
+                        <td>{{ item.keys()|first }}</td>
+                        <td>{{ (item.values()|first)['solved']|join(', ') }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
         <center>
         <div>
-            <a href='#' onClick='location.replace("/checkflag")' class="btn btn-danger">플래그제출</a>            
-            <a href='#' onClick='location.replace("/ranking")' class="btn btn-warning">랭킹</a>      
+            <a href='#' onClick='location.replace("/main")' class="btn btn-danger">메인</a>
             <a href='#' onClick='location.replace("/logout")' class="btn btn-info">로그아웃</a>            
         </div>
     	</center>

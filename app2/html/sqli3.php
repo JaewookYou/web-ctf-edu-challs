@@ -27,6 +27,7 @@ if(isset($_GET["userid"]) && isset($_GET["userpw"])){
 	if ($result->num_rows > 0) {
 	    while ($row = $result->fetch_assoc()) {
 	        $userid = $row['userid'];
+		break;
 	    }
 	}
 	$mysqli->close();

@@ -15,11 +15,14 @@ def load_user():
     if os.path.exists("users.json"):
         with open("users.json","r") as f:
             ids = json.loads(f.read())
+        for i in ids.keys():
+            ids[i]['solved'] = list(set(ids[i]['solved']))
     else:
         ids = {
             "arang":{
                 "password": "123123",
-                "solved": []
+                "solved": [],
+                "lastsolved":1797214493
             }
         }
 load_user()
@@ -131,11 +134,30 @@ def main():
         return flask.redirect(flask.url_for("login"))
 
     load_user()
+    t=[]
+    for i in range(len(challenges)):
+        if i in ids[flask.session["userid"]]["solved"]:
+            tt = challenges[i]
+            tt["solved"] = True
+        else:
+            tt = challenges[i]
+            tt["solved"] = False
+        t.append(tt)
+    
+    return flask.render_template("main.html", c=t)
 
-    for i in ids[flask.session["userid"]]["solved"]:
-        challenges[i]["solved"] = True
 
-    return flask.render_template("main.html", challenges = challenges)
+@app.route("/ranking")
+def ranking():
+    load_user()
+    t = []
+    sorted_dict = dict(sorted(ids.items(), key=lambda item: (-len(item[1]["solved"]), item[1]["lastsolved"])))
+    print(sorted_dict)
+    for i in sorted_dict.keys():
+        t.append({i:sorted_dict[i]})
+    print(t)
+    return flask.render_template("ranking.html", ids=t)
+    
 
 @app.route("/login", methods=["GET","POST"])
 def login():
@@ -220,6 +242,7 @@ def report():
         if flag in list(flags.values()):
             i = list(flags.values()).index(flag)
             ids[flask.session["userid"]]["solved"].append(i)
+            ids[flask.session["userid"]]["lastsolved"] = time.time()
             with open("users.json", "w") as f:
                 f.write(json.dumps(ids))
             return "<script>alert('right! congratulation!!');location='/';</script>"
