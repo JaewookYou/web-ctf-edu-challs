@@ -1,4 +1,2 @@
-mysql/init.sql
 app/*.json
-**/*flag*
-docker/flask/Dockerfile
+*core.*
