@@ -1,0 +1,17 @@
+{
+	"xss1":"flag{[REDACTED]}",
+	"xss2":"flag{[REDACTED]}",
+	"xss3":"flag{[REDACTED]}",
+	"dom clobbering":"flag{[REDACTED]}",
+	"csrf1":"flag{[REDACTED]}",
+	"csrf2":"flag{[REDACTED]}",
+	"xsleak":"flag{[REDACTED]}",
+	"sqli1":"flag{[REDACTED]}",
+	"sqli2":"flag{[REDACTED]}",
+	"sqli3":"flag{[REDACTED]}",
+	"lfi1":"flag{[REDACTED]}",
+	"lfi2":"flag{[REDACTED]}",
+	"command injection":"flag{[REDACTED]}",
+	"ssti":"flag{[REDACTED]}",
+	"prototype pollution":"flag{[REDACTED]}"
+}
