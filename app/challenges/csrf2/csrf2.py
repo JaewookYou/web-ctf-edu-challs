@@ -1,6 +1,6 @@
 #-*-coding:utf-8-*-
 import flask
-import os, pymysql, re, hashlib, time, base64, io, requests, binascii
+import os, pymysql, re, hashlib, time, base64, io, requests, binascii, socket
 import logging, traceback
 logging.basicConfig(level=logging.INFO)
 logging.getLogger('werkzeug').setLevel(level=logging.WARNING)
@@ -117,7 +117,7 @@ def changepw():
         userpw = flask.request.args["userpw"]
                 
         if userid == "admin":
-            if "172." not in flask.request.remote_addr:
+            if flask.request.remote_addr != socket.gethostbyname("arang_client"):
                 return flask.render_template("changepw.html", msg="admin password is only changed at internal network")
         
         if userid in ids:

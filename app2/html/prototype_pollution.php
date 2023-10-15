@@ -64,7 +64,7 @@ window.onload = ()=>{
 <div id='flag'>
 <?php
 $flag = file_get_contents("/pp_flag.txt");
-if(str_contains($_SERVER['REMOTE_ADDR'],'172.')){
+if($_SERVER['REMOTE_ADDR']==gethostbyname('arang_client')){
   echo $flag;
 }
 ?>

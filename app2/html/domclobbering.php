@@ -57,7 +57,7 @@ if(isset($_GET["c"])){
 <div id='flag'>
 <?php
 $flag = file_get_contents("/domclobbering_flag.txt");
-if(str_contains($_SERVER['REMOTE_ADDR'],'172.')){
+if($_SERVER['REMOTE_ADDR']==gethostbyname('arang_client')){
   echo $flag;
 }
 ?>
