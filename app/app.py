@@ -20,7 +20,7 @@ def load_user():
     else:
         ids = {
             "arang":{
-                "password": "123123",
+                "password": "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e",
                 "solved": [],
                 "lastsolved":0
             }
@@ -81,7 +81,7 @@ challenges = [
     },
     {
         "seq": 11,
-        "challenge": "lif1 - basic",
+        "challenge": "lfi1 - basic",
         "link": "http://arang_client:9201/lfi1.php"
     },
     {

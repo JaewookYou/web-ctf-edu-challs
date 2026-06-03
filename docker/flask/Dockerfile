@@ -16,12 +16,12 @@ RUN pip install --no-cache-dir flask pymysql requests selenium
 
 ENV admin_password="[redacted]"
 
-ENV xss1_flag="flag{[redacted]}"
-ENV xss2_flag="flag{[redacted]}"
-ENV xss3_flag="flag{[redacted]}"
-ENV csrf1_flag="flag{[redacted]}"
-ENV csrf2_flag="flag{[redacted]}"
-ENV xsleak_flag="flag{[redacted]}"
+ENV xss1_flag="flag{[REDACTED]}"
+ENV xss2_flag="flag{[REDACTED]}"
+ENV xss3_flag="flag{[REDACTED]}"
+ENV csrf1_flag="flag{[REDACTED]}"
+ENV csrf2_flag="flag{[REDACTED]}"
+ENV xsleak_flag="flag{[REDACTED]}"
 
 
 ENTRYPOINT /app/entrypoint.sh && /bin/sh
