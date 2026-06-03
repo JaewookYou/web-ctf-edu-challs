@@ -12,7 +12,6 @@ RUN chmod 444 /command_injection_flag.txt
 RUN groupadd -g 999 user
 RUN useradd -r -u 999 -g user user
 USER user
-RUN python3 /app4/app.py&
 
 ENTRYPOINT /app4/entrypoint.sh && /bin/bash
 CMD ["true"]

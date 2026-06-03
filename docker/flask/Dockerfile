@@ -8,17 +8,16 @@ RUN apt-get update -y && apt-get install -y google-chrome-stable
 RUN apt-get install -y python3-pip python3-dev build-essential libcurl4-openssl-dev libssl-dev git
 RUN apt-get install -y net-tools
 RUN apt-get install -y procps
-RUN pip3 install pycurl pymysql flask requests selenium
-RUN pip3 install git+https://github.com/SergeyPirogov/webdriver_manager
+RUN pip3 install pycurl pymysql flask requests selenium webdriver-manager==4.0.2
 
-ENV admin_password [redacted]
+ENV admin_password="[redacted]"
 
-ENV xss1_flag flag{[redacted]}
-ENV xss2_flag flag{[redacted]}
-ENV xss3_flag flag{[redacted]}
-ENV csrf1_flag flag{[redacted]}
-ENV csrf2_flag flag{[redacted]}
-ENV xsleak_flag flag{[redacted]}
+ENV xss1_flag="flag{[redacted]}"
+ENV xss2_flag="flag{[redacted]}"
+ENV xss3_flag="flag{[redacted]}"
+ENV csrf1_flag="flag{[redacted]}"
+ENV csrf2_flag="flag{[redacted]}"
+ENV xsleak_flag="flag{[redacted]}"
 
 
 ENTRYPOINT /app/entrypoint.sh && /bin/bash

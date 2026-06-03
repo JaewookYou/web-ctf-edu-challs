@@ -12,7 +12,6 @@ RUN chmod 444 /ssti_flag.txt
 RUN groupadd -g 999 user
 RUN useradd -r -u 999 -g user user
 USER user
-RUN python3 /app5/app.py&
 
 ENTRYPOINT /app5/entrypoint.sh && /bin/bash
 CMD ["true"]
