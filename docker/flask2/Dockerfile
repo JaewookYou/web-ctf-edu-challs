@@ -1,6 +1,7 @@
 FROM python:3.11-alpine
 WORKDIR /app4
-RUN pip install --no-cache-dir flask
+RUN apk add --no-cache bash \
+    && pip install --no-cache-dir flask
 
 COPY flags/command_injection_flag.txt /command_injection_flag.txt
 RUN chmod 444 /command_injection_flag.txt
