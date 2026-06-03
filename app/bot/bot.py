@@ -7,7 +7,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.remote.remote_connection import LOGGER
-from webdriver_manager.chrome import ChromeDriverManager
 import flask
 import traceback, os, time
 
@@ -17,6 +16,8 @@ app.config['MAX_CONTENT_LENGTH'] = 80 * 1024 * 1024
 
 ADMIN_ID = "admin"
 ADMIN_PASS = os.getenv("admin_password")
+CHROME_BIN = os.getenv("CHROME_BIN", "/usr/bin/chromium")
+CHROMEDRIVER_BIN = os.getenv("CHROMEDRIVER_BIN", "/usr/bin/chromedriver")
 
 server1_challs = {
 	"xss1": "9001",
@@ -33,12 +34,14 @@ def interceptor(request):
 class Crawler:
 	def __init__(self):
 		options = webdriver.ChromeOptions()
-		options.add_argument('--headless')
+		options.binary_location = CHROME_BIN
+		options.add_argument('--headless=new')
 		options.add_argument('--no-sandbox')
+		options.add_argument('--disable-dev-shm-usage')
 		options.add_experimental_option("excludeSwitches", ["enable-automation"])
 		options.add_experimental_option("useAutomationExtension", False)
 
-		self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+		self.driver = webdriver.Chrome(service=Service(CHROMEDRIVER_BIN), options=options)
 		self.driver.request_interceptor = interceptor
 		self.driver.implicitly_wait(3)
 		self.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")

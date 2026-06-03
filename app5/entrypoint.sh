@@ -1,2 +1,2 @@
-#!/bin/bash
+#!/bin/sh
 python3 /app5/app.py&

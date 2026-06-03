@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 python3 /app/app.py&
 python3 /app/bot/bot.py&
 python3 /app/challenges/xss1/xss1.py&
